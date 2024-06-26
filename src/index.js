@@ -40,10 +40,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use('/auth', authRoute)
-app.use('/weather', weatherRoute)
-app.use('/tasks', taskRoutes);
-app.use('/avatar', avatarRoutes);
+app.use('/api/auth', authRoute);
+app.use('/api/weather', weatherRoute);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/avatar', avatarRoutes);
 
 app.listen(port, () => {
     console.log(`Application is listening at port ${port}`);
