@@ -1,3 +1,7 @@
+// This shouldnt be necessary since node +14 supports abort controller natively
+const { AbortController } = require('abort-controller');
+global.AbortController = AbortController;
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport')
