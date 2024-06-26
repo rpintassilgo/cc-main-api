@@ -8,7 +8,6 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.BACKEND_PORT;
-const clientOrigin = process.env.CLIENT_ORIGIN;
 const authRoute = require('./routes/auth.routes');
 const weatherRoute = require('./routes/weather.routes');
 const taskRoutes = require('./routes/tasks.routes');
@@ -31,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
   
 const corsOptions = {
-  origin: clientOrigin,
+  origin: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
   credentials: true,
