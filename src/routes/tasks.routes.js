@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-const TASK_API_URL = `${process.env.TASK_API_URL}/tasks`;
+const TASK_API_URL = `${window.location.origin}/task-api/tasks`;
 const API_KEY = process.env.TASK_API_KEY;
 
 const config = {

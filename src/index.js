@@ -12,7 +12,7 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.BACKEND_PORT;
-const clientOrigin = process.env.CLIENT_ORIGIN;
+const clientOrigin = `${window.location.origin}`
 const authRoute = require('./routes/auth.routes');
 const weatherRoute = require('./routes/weather.routes');
 const taskRoutes = require('./routes/tasks.routes');
@@ -45,10 +45,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-app.use('/auth', authRoute);
-app.use('/weather', weatherRoute);
-app.use('/tasks', taskRoutes);
-app.use('/avatar', avatarRoutes);
+app.use('/api/auth', authRoute);
+app.use('/api/weather', weatherRoute);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/avatar', avatarRoutes);
 
 app.listen(port, () => {
     console.log(`Application is listening at port ${port}`);
