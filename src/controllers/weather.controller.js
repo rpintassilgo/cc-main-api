@@ -2,6 +2,7 @@ const axios = require('axios').default;
 const Compass = require("cardinal-direction");
 const luxon = require('luxon')
 const lookup = require('country-code-lookup')
+const Weather = require('../models/Weather');
 
 module.exports = class WeatherController{
 
@@ -24,12 +25,23 @@ module.exports = class WeatherController{
     }
 
     static async getWeatherByCoordinates(req,res){
-        const coordinates = `${req.query.lat}|${req.query.lon}`;
+        const { lat, lon } = req.query;
         let data = null
 
         try {
-            const response = await axios.get(`${process.env.WEATHER_API_URL}?lat=${req.query.lat}&lon=${req.query.lon}&appid=${process.env.OPEN_WEATHER_API_KEY}`, 
-            { headers: {'Content-type': 'application/json'}});
+            // Check the database for existing weather data
+            const existingWeather = await Weather.findOne({ lat, lon }).sort({ createdAt: -1 }).exec();
+            if (existingWeather) {
+                const oneHourAgo = luxon.DateTime.now().minus({ hours: 1 });
+                if (luxon.DateTime.fromISO(existingWeather.createdAt) > oneHourAgo) {
+                    return res.send(existingWeather);
+                }
+            }
+
+            // If no recent data found, fetch new data from the API
+            const response = await axios.get(`${process.env.WEATHER_API_URL}?lat=${lat}&lon=${lon}&appid=${process.env.OPEN_WEATHER_API_KEY}`, {
+                headers: { 'Content-type': 'application/json' }
+            });
 
             const weather = {
                 city: response.data.city,
