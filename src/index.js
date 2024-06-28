@@ -51,6 +51,7 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/avatar', avatarRoutes);
 
 app.listen(port, () => {
+    console.log(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER_NAME}.${process.env.MONGO_URL}/weather?retryWrites=true`)
     console.log(`Application is listening at port ${port}`);
 });
 
